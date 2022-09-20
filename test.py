@@ -25,7 +25,7 @@ def predict(image, model):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_path', type=str, default='images/0.jpg')
+    #parser.add_argument('--image_path', type=str, default='images/0.jpg')
     config = parser.parse_args()
     image = Image.open(config.image_path)
     model = torchvision.models.resnet50()
@@ -34,3 +34,6 @@ if __name__ == '__main__':
     model.load_state_dict(torch.load('model/model-resnet50.pth', map_location=device)) 
     model.eval().to(device)
     predict(image, model)
+    demo = gr.Interface(fn=prepare_image, inputs=image, outputs=predict, interpretation="default")
+
+    demo.launch()
